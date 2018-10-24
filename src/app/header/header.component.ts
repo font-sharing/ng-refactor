@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
-  profuleCaption = () => this.profile.name === '' ? 'Profile' : `${this.profile.name}${this.isBirthday() ? '🎂' : ''}`;
+  profileCaption = () => this.profile.name === '' ? 'Profile' : `${this.profile.name}${this.isBirthday() ? '🎂' : ''}`;
 
   private isBirthday() {
     const today =  TimeProvider.now();
