@@ -1,0 +1,29 @@
+<div>
+  <h2>Add Budget</h2>
+  <div class="form-item">
+    <div class="label">
+      <label>Month</label>
+    </div>
+    <div class="editor">
+      <input type="text" [(ngModel)]="budget.month" placeholder="Month YYYY-MM">
+    </div>
+    <div class="error">
+      <span>{{errors.month}}</span>
+    </div>
+  </div>
+  <div class="form-item">
+    <div class="label">
+      <label>Amount</label>
+    </div>
+    <div class="editor">
+      <input type="number" [(ngModel)]="budget.amount" placeholder="Amount">
+    </div>
+    <div class="error">
+      <span>{{errors.amount}}</span>
+    </div>
+  </div>
+  <div class="form-item">
+    <button (click)="save()" class="button">Save</button>
+    <button (click)="cancel()" class="button">Cancel</button>
+  </div>
+</div>
