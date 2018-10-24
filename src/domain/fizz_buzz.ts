@@ -1,13 +1,12 @@
 export class FizzBuzz {
   query(data: number): string {
-    if (data % 3 === 0) {
-      return 'Fizz';
-    } else if (data % 5 === 0) {
-      return 'Buzz';
-    } else if (data % 15 === 0) {
-      return 'FizzBuzz';
-    }
+    const lookup = [
+      {key: 15, value: 'FizzBuzz'},
+      {key: 5, value: 'Buzz'},
+      {key: 3, value: 'Fizz'},
+      {key: 1, value: data.toString()}
+    ];
 
-    return data.toString();
+    return lookup.find(i => data % i.key === 0).value;
   }
 }
