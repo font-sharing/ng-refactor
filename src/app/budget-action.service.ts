@@ -20,18 +20,21 @@ export class BudgetActionService {
   private AMOUNT_INVALID = 'Invalid amount';
 
   save(budget) {
-    const monthValidator = [
-      {validate: () => budget.month === '', error: this.MONTH_EMPTY},
-      {validate: () => !(/^\d{4}-\d{2}$/g).test(budget.month), error: this.MONTH_FORMAT_INVALID},
-      {validate: () => true, error: ''}
-    ];
-    const amountValidator = [
-      {validate: () => budget.amount === '', error: this.AMOUNT_EMPTY},
-      {validate: () => isNaN(parseInt(budget.amount, 10)) || budget.amount < 0, error: this.AMOUNT_INVALID},
-      {validate: () => true, error: ''}
-    ];
-    this.errors.month = monthValidator.find(v => v.validate()).error;
-    this.errors.amount = amountValidator.find(v => v.validate()).error;
+    const validator = {
+      month: [
+        {validate: () => budget.month === '', error: this.MONTH_EMPTY},
+        {validate: () => !(/^\d{4}-\d{2}$/g).test(budget.month), error: this.MONTH_FORMAT_INVALID},
+        {validate: () => true, error: ''}
+      ],
+      amount: [
+        {validate: () => budget.amount === '', error: this.AMOUNT_EMPTY},
+        {validate: () => isNaN(parseInt(budget.amount, 10)) || budget.amount < 0, error: this.AMOUNT_INVALID},
+        {validate: () => true, error: ''}
+      ]
+    };
+    for (const field in validator) {
+      this.errors[field] = validator[field].find(v => v.validate()).error;
+    }
     if (this.errors.month || this.errors.amount) {
       return this.errors;
     }
