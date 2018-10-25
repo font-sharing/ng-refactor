@@ -14,29 +14,25 @@ export class BudgetActionService {
   constructor(private budgetService: BudgetService) {
   }
 
+  private MONTH_EMPTY = 'Month cannot be empty';
+  private MONTH_FORMAT_INVALID = 'Invalid month format';
+  private AMOUNT_EMPTY = 'Amount cannot be empty';
+  private AMOUNT_INVALID = 'Invalid amount';
+
   save(budget) {
-    let monthValid, amountValid;
-    if (budget.month === '') {
-      this.errors.month = 'Month cannot be empty';
-      monthValid = false;
-    } else if (!(/^\d{4}-\d{2}$/g).test(budget.month)) {
-      this.errors.month = 'Invalid month format';
-      monthValid = false;
-    } else {
-      this.errors.month = '';
-      monthValid = true;
-    }
-    if (budget.amount === '') {
-      this.errors.amount = 'Amount cannot be empty';
-      amountValid = false;
-    } else if (isNaN(parseInt(budget.amount, 10)) || budget.amount < 0) {
-      this.errors.amount = 'Invalid amount';
-      amountValid = false;
-    } else {
-      this.errors.amount = '';
-      amountValid = true;
-    }
-    if (!monthValid || !amountValid) {
+    const monthValidator = [
+      {validate: () => budget.month === '', error: this.MONTH_EMPTY},
+      {validate: () => !(/^\d{4}-\d{2}$/g).test(budget.month), error: this.MONTH_FORMAT_INVALID},
+      {validate: () => true, error: ''}
+    ];
+    const amountValidator = [
+      {validate: () => budget.amount === '', error: this.AMOUNT_EMPTY},
+      {validate: () => isNaN(parseInt(budget.amount, 10)) || budget.amount < 0, error: this.AMOUNT_INVALID},
+      {validate: () => true, error: ''}
+    ];
+    this.errors.month = monthValidator.find(v => v.validate()).error;
+    this.errors.amount = amountValidator.find(v => v.validate()).error;
+    if (this.errors.month || this.errors.amount) {
       return this.errors;
     }
 
