@@ -25,7 +25,7 @@ describe('BudgetActionService', () => {
 
   it('month format should be YYYY-MM', () => {
     component.save({month: 'INVALID'});
-    validation_failed_with('month', 'Invalid month format');
+    validation_failed_with('month', 'Invalid Month format');
   });
 
   it('amount should not be empty', () => {
@@ -35,12 +35,12 @@ describe('BudgetActionService', () => {
 
   it('amount should be a number', () => {
     component.save({amount: 'NOT A NUMBER'});
-    validation_failed_with('amount', 'Invalid amount');
+    validation_failed_with('amount', 'Invalid Amount');
   });
 
   it('amount should be a number', () => {
     component.save({amount: -1});
-    validation_failed_with('amount', 'Invalid amount');
+    validation_failed_with('amount', 'Invalid Amount');
   });
 
   it('add a budget', () => {
